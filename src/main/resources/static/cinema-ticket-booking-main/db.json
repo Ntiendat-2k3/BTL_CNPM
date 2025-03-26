@@ -1,0 +1,117 @@
+//{
+//  "movies": [
+//    {
+//      "id": 1,
+//      "title": "The Dark Knight",
+//      "genre": "Action, Crime, Drama",
+//      "releaseYear": 2008,
+//      "imageUrl": "https://images.unsplash.com/photo-1635805737707-575885ab0820?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bWFydmVsfGVufDB8fDB8fHww"
+//    },
+//    {
+//      "id": 2,
+//      "title": "Inception",
+//      "genre": "Action, Adventure, Sci-Fi",
+//      "releaseYear": 2010,
+//      "imageUrl": "https://images.unsplash.com/photo-1635805737707-575885ab0820?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bWFydmVsfGVufDB8fDB8fHww"
+//    },
+//    {
+//      "id": 3,
+//      "title": "Interstellar",
+//      "genre": "Adventure, Drama, Sci-Fi",
+//      "releaseYear": 2014,
+//      "imageUrl": "https://images.unsplash.com/photo-1635805737707-575885ab0820?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bWFydmVsfGVufDB8fDB8fHww"
+//    },
+//    {
+//      "id": 4,
+//      "title": "Interstellar",
+//      "genre": "Adventure, Drama, Sci-Fi",
+//      "releaseYear": 2014,
+//      "imageUrl": "https://images.unsplash.com/photo-1635805737707-575885ab0820?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bWFydmVsfGVufDB8fDB8fHww"
+//    },
+//    {
+//      "id": 5,
+//      "title": "The Dark Knight",
+//      "genre": "Action, Crime, Drama",
+//      "releaseYear": 2008,
+//      "imageUrl": "https://images.unsplash.com/photo-1635805737707-575885ab0820?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bWFydmVsfGVufDB8fDB8fHww"
+//    },
+//    {
+//      "id": 6,
+//      "title": "Inception",
+//      "genre": "Action, Adventure, Sci-Fi",
+//      "releaseYear": 2010,
+//      "imageUrl": "https://images.unsplash.com/photo-1635805737707-575885ab0820?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bWFydmVsfGVufDB8fDB8fHww"
+//    },
+//    {
+//      "id": 7,
+//      "title": "Interstellar",
+//      "genre": "Adventure, Drama, Sci-Fi",
+//      "releaseYear": 2014,
+//      "imageUrl": "https://images.unsplash.com/photo-1635805737707-575885ab0820?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bWFydmVsfGVufDB8fDB8fHww"
+//    },
+//    {
+//      "id": 8,
+//      "title": "Interstellar",
+//      "genre": "Adventure, Drama, Sci-Fi",
+//      "releaseYear": 2014,
+//      "imageUrl": "https://images.unsplash.com/photo-1635805737707-575885ab0820?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bWFydmVsfGVufDB8fDB8fHww"
+//    }
+//  ],
+//  "showtimes": [
+//    {
+//      "id": 1,
+//      "movieId": 1,
+//      "idroom": 1,
+//      "time": "2025-03-25 15:00"
+//    },
+//    {
+//      "id": 2,
+//      "movieId": 1,
+//      "idroom": 2,
+//      "time": "2025-03-25 18:00"
+//    },
+//    {
+//      "id": 3,
+//      "movieId": 2,
+//      "idroom": 1,
+//      "time": "2025-03-26 16:00"
+//    }
+//  ],
+//  "seats": [
+//    {
+//      "id": 1,
+//      "seatRow": "A",
+//      "number": 1,
+//      "status": "available",
+//      "showtimeId": 1
+//    },
+//    {
+//      "id": 2,
+//      "seatRow": "A",
+//      "number": 2,
+//      "status": "booked",
+//      "showtimeId": 1
+//    },
+//    {
+//      "id": 3,
+//      "seatRow": "A",
+//      "number": 3,
+//      "status": "available",
+//      "showtimeId": 2
+//    },
+//    {
+//      "id": 4,
+//      "seatRow": "B",
+//      "number": 1,
+//      "status": "available",
+//      "showtimeId": 3
+//    },
+//    {
+//      "id": 5,
+//      "seatRow": "B",
+//      "number": 2,
+//      "status": "booked",
+//      "showtimeId": 3
+//    }
+//  ]
+//}
