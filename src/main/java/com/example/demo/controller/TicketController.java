@@ -53,8 +53,8 @@ public class TicketController {
         return ResponseEntity.ok(bookedSeats);
     }
 
-    @GetMapping("/sales")
-    public ResponseEntity<List<TicketSaleDTO>> getTicketSales() {
-        return ResponseEntity.ok(ticketRepository.getTicketSales());
-    }
+    // @GetMapping("/sales")
+    // public ResponseEntity<List<TicketSaleDTO>> getTicketSales() {
+    //     return ResponseEntity.ok(ticketRepository.getTicketSales());
+    // }
 }

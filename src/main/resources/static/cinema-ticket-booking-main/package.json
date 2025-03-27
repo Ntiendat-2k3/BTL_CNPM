@@ -11,9 +11,14 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.8.4",
     "font-awesome": "^4.7.0",
+    "intersection-observer": "^0.12.2",
     "json-server": "^1.0.0-beta.3",
+    "lodash": "^4.17.21",
+    "notyf": "^3.10.0",
+    "prop-types": "^15.8.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-loading-skeleton": "^3.5.0",
     "react-router-dom": "^7.4.0",
     "react-scripts": "^5.0.1",
     "sass": "^1.86.0",
@@ -24,7 +29,6 @@
     "build": "react-scripts --openssl-legacy-provider build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
-
   },
   "eslintConfig": {
     "extends": [

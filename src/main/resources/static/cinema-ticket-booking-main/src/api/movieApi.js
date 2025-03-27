@@ -32,9 +32,27 @@ export const getMovieDetails = async (id) => {
 export const getShowtimes = (id) =>
   fetchData(`${BASE_URL}/api/movies/${id}/showtimes`);
 
-// Lấy danh sách ghế trong phòng
-export const getSeats = (showtimeId) =>
+// Lấy tất cả các ghế trong các phòng
+export const getSeats = () =>
+  fetchData(`${BASE_URL}/api/seats`);
+
+// Lấy trạng thái ghế trong phòng theo showtimeId
+export const getSeatDetail = (showtimeId) =>
   fetchData(`${BASE_URL}/api/seats/${showtimeId}`);
+
+export const searchMovies = async (query) => {
+  try {
+    const response = await fetch(`${BASE_URL}/api/movies?title_like=${encodeURIComponent(query)}`);
+    
+    if (!response.ok) throw new Error("Lỗi kết nối server");
+    
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Lỗi tìm kiếm:", error);
+    return [];
+  }
+};
 
 // Mua vé (đặt vé)
 export const buyTickets = (seatData) => {
