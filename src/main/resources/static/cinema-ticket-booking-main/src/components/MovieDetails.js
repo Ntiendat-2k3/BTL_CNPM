@@ -3,12 +3,17 @@ import { useParams } from "react-router-dom";
 import {
   buyTickets,
   getMovieDetails,
-  getSeatDetail,
   getShowtimes,
   getSeats,
-} from "../api/movieApi";
-import LoadingHamster from '../utils/LoadingHamster';
-import { showSuccessNotification, showErrorNotification, showInfoNotification } from "../utils/Notification";
+  getSeatDetail,
+  getBookedSeats,
+} from "../api/movieApi"; // Đảm bảo bạn đã import getBookedSeats từ movieApi
+import LoadingHamster from "../utils/LoadingHamster";
+import {
+  showSuccessNotification,
+  showErrorNotification,
+  showInfoNotification,
+} from "../utils/Notification";
 
 const MovieDetails = () => {
   const { id } = useParams();
@@ -34,7 +39,6 @@ const MovieDetails = () => {
     fetchMovie();
   }, [id]);
 
-  // Fetch showtimes
   useEffect(() => {
     const fetchShowtimes = async () => {
       try {
@@ -52,6 +56,7 @@ const MovieDetails = () => {
     setSelectedShowtime(showtime);
     try {
       const allSeats = await getSeats();
+      // Lấy chi tiết ghế cho một showtime nhất định
       const seatDetails = await getSeatDetail(showtime.id);
 
       if (typeof seatDetails === "object" && seatDetails !== null) {
@@ -60,23 +65,32 @@ const MovieDetails = () => {
           .map((seat) => {
             return {
               ...seat,
-              status: seat.id === seatDetails.id ? seatDetails.status : seat.status,
+              status:
+                seat.id === seatDetails.id ? seatDetails.status : seat.status,
             };
           });
+
+        // Lấy các ghế đã đặt từ API
+        const bookedSeats = await getBookedSeats(showtime.idroom, showtime.id);
+        roomSeats.forEach((seat) => {
+          // Đánh dấu ghế đã đặt
+          if (bookedSeats.some((bookedSeat) => bookedSeat.idSeat === seat.id)) {
+            seat.status = "booked";
+          }
+        });
+
         setSeats(roomSeats);
       } else {
-        console.error("Invalid seat data: seatDetails is not an object.");
         showErrorNotification("Lỗi khi lấy trạng thái ghế. Vui lòng thử lại.");
       }
     } catch (error) {
-      console.error("Lỗi khi lấy ghế:", error);
       showErrorNotification("Không thể tải danh sách ghế");
+      console.error("Lỗi khi lấy ghế:", error);
     } finally {
       setSeatLoading(false);
     }
   };
 
-  // Seat selection
   const handleSeatSelection = (seat) => {
     setSelectedSeats((prev) =>
       prev.some((s) => s.id === seat.id)
@@ -85,7 +99,6 @@ const MovieDetails = () => {
     );
   };
 
-  // Payment handler
   const handlePayment = async () => {
     if (!selectedShowtime) {
       showInfoNotification("Vui lòng chọn suất chiếu trước");
@@ -93,25 +106,38 @@ const MovieDetails = () => {
     }
 
     try {
-      await buyTickets({
+      const seatIds = selectedSeats.map((s) => s.id);
+      const seatData = {
         showtimeId: selectedShowtime.id,
-        seatIds: selectedSeats.map((s) => s.id),
+        seatIds: seatIds,
         movieId: id,
-      });
-      showSuccessNotification("Đặt vé thành công!");
-      loadSeats(selectedShowtime); // Refresh seats
-      setSelectedSeats([]); // Reset selected seats
+      };
+
+      console.log("Dữ liệu gửi đi:", seatData);
+
+      const response = await buyTickets(seatData); // Gọi hàm mua vé
+
+      if (response.success) {
+        showSuccessNotification("Đặt vé thành công!");
+        loadSeats(selectedShowtime); // Làm mới ghế sau khi thanh toán
+        setSelectedSeats([]); // Reset ghế đã chọn
+      } else {
+        showErrorNotification("Đặt vé thất bại: " + response.message);
+      }
     } catch (error) {
       console.error("Lỗi thanh toán:", error);
-      showErrorNotification("Đặt vé thất bại: " + (error.response?.data?.message || error.message));
+      showErrorNotification(
+        "Đặt vé thất bại: " + (error.message || "Có lỗi xảy ra")
+      );
     }
   };
 
-  if (loading) return (
-          <div className="flex justify-center items-center h-screen">
-            <LoadingHamster />
-          </div>
-  )
+  if (loading)
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <LoadingHamster />
+      </div>
+    );
 
   const organizeSeatsByRow = (seats) => {
     const rows = {};
@@ -137,10 +163,9 @@ const MovieDetails = () => {
         />
         <h1 className="text-2xl font-bold mb-4">{movie.title}</h1>
         <div className="space-y-2 bg-[#242831]  p-4 rounded-lg text-gray-200">
-          <p >Thể loại: {movie.genre}</p>
-          <p >Năm phát hành: {movie.releaseYear}</p>
-          <p >{movie.description}</p>
-          
+          <p>Thể loại: {movie.genre}</p>
+          <p>Năm phát hành: {movie.releaseYear}</p>
+          <p>{movie.description}</p>
         </div>
       </div>
 
@@ -182,22 +207,24 @@ const MovieDetails = () => {
                 {Object.keys(seatRows).map((row) => (
                   <div key={row} className="mb-4">
                     <div className="flex items-center justify-center mb-2">
-                      <div className="font-semibold text-gray-700 mr-2">{row}</div>
+                      <div className="font-semibold text-gray-700 mr-2">
+                        {row}
+                      </div>
                       <div className="flex gap-2">
                         {seatRows[row].map((seat) => (
                           <button
                             key={seat.id}
                             onClick={() => handleSeatSelection(seat)}
-                            disabled={seat.status}
+                            disabled={seat.status === "booked"}
                             className={`w-10 h-10 rounded-lg text-xs flex items-center justify-center ${
-                              seat.status
+                              seat.status === "booked"
                                 ? "bg-gray-300 cursor-not-allowed"
                                 : selectedSeats.some((s) => s.id === seat.id)
                                 ? "bg-green-500 text-white"
                                 : "bg-white border-2 border-gray-300 hover:border-blue-500"
                             }`}
                           >
-                            {seat.number} 
+                            {seat.number}
                           </button>
                         ))}
                       </div>
@@ -226,7 +253,9 @@ const MovieDetails = () => {
               <div>
                 <p className="font-semibold">
                   Đã chọn {selectedSeats.length} ghế:{" "}
-                  {selectedSeats.map((s) => `${s.seatRow}${s.number}`).join(", ")}
+                  {selectedSeats
+                    .map((s) => `${s.seatRow}${s.number}`)
+                    .join(", ")}
                 </p>
                 <p className="text-blue-600 font-bold">
                   Tổng: {(selectedSeats.length * 70000).toLocaleString()} VND
