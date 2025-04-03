@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getMovies } from "../api/movieApi";
 import MovieCard from "../components/MovieCard";
 import MainLayout from "../layout/MainLayout";
-import LoadingHamster from '../utils/LoadingHamster';
+// import LoadingHamster from '../utils/LoadingHamster';
 import LoadingSkeleton from '../utils/LoadingSkeleton'; 
 
 const Home = () => {

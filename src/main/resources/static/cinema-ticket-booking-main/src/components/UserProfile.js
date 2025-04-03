@@ -1,55 +1,67 @@
-import React, { useEffect } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
+import LoginForm from './LoginForm';
+import SignupForm from './SignupForm';
 
 const UserProfile = () => {
-  const { loginWithRedirect, logout, user, isAuthenticated, isLoading, error } =
-    useAuth0();
+  const { user, isAuthenticated, isLoading, error, logout } = useAuth();
+  const [formToShow, setFormToShow] = useState(null); 
 
+  // Tự động đóng form khi đã đăng nhập
   useEffect(() => {
-    if (error) {
-      console.error("Auth Error:", error);
-      if (error.error === "invalid_state") {
-        // Xử lý riêng cho state error
-        localStorage.removeItem("auth0.is.authenticated");
-        window.location.reload();
-      }
+    if (isAuthenticated) {
+      setFormToShow(null);
     }
-  }, [error]);
+  }, [isAuthenticated]);
 
   if (isLoading) {
     return <div className="text-white">Loading...</div>;
   }
 
   if (error) {
-    return <div className="text-red-500">Error: {error.message}</div>;
+    return <div className="text-red-500">Error: {error}</div>;
   }
 
+  const handleClose = () => {
+    setFormToShow(null);
+  };
+
   return (
-    <div className="flex items-center space-x-2">
+    <div className="flex items-center gap-4">
       {isAuthenticated ? (
-        <>
-          {user?.picture && (
-            <img
-              src={user.picture}
-              alt="User Avatar"
-              className="w-10 h-10 rounded-full"
-            />
-          )}
-          <span className="text-white">Hi, {user?.name || "User"}</span>
+        <div className="flex items-center gap-2">
+          <span className="text-white">Hi, {user.username}</span>
           <button
-            onClick={() => logout({ returnTo: window.location.origin })}
-            className="bg-red-500 p-2 rounded-lg text-white hover:bg-red-600 transition-colors"
+            onClick={logout}
+            className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
           >
             Logout
           </button>
-        </>
+        </div>
       ) : (
-        <button
-          onClick={() => loginWithRedirect()}
-          className="bg-green-500 p-2 rounded-lg text-white hover:bg-green-600 transition-colors"
-        >
-          Login
-        </button>
+        <>
+          <button
+            onClick={() => setFormToShow('login')}
+            className="bg-green-500 p-2 rounded-lg text-white hover:bg-green-600 transition-colors"
+          >
+            Login
+          </button>
+
+          {formToShow === 'login' && (
+            <LoginForm
+              onClose={handleClose}
+              onLoginSuccess={handleClose}
+              onSwitchToSignup={() => setFormToShow('signup')}
+            />
+          )}
+
+          {formToShow === 'signup' && (
+            <SignupForm
+              onClose={handleClose}
+              onSwitchToLogin={() => setFormToShow('login')}
+            />
+          )}
+        </>
       )}
     </div>
   );
