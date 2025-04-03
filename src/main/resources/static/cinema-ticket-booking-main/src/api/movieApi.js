@@ -90,3 +90,5 @@ export const buyTickets = (seatData) => {
       throw error;
     });
 };
+
+export const getUsers = () => fetchData(`${BASE_URL}/api/users`);
