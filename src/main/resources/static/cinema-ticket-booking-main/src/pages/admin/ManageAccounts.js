@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
+import Container from "../../components/admin/Container";
+import { BASE_URL } from "../../api/movieApi";
 
 const ManageAccounts = () => {
-  const apiUrl = "http://localhost:8080/api/users";
   const [users, setUsers] = useState([]);
   const [form, setForm] = useState({
     id: "",
@@ -20,7 +21,7 @@ const ManageAccounts = () => {
   const loadUsers = async () => {
     try {
       setLoading(true);
-      const response = await fetch(apiUrl);
+      const response = await fetch(BASE_URL);
       if (!response.ok) throw new Error("Lỗi kết nối server");
       const data = await response.json();
       setUsers(data);
@@ -44,7 +45,7 @@ const ManageAccounts = () => {
 
     try {
       const method = form.id ? "PUT" : "POST";
-      const url = form.id ? `${apiUrl}/${form.id}` : `${apiUrl}/register`;
+      const url = form.id ? `${BASE_URL}/${form.id}` : `${BASE_URL}/register`;
 
       const response = await fetch(url, {
         method,
@@ -71,7 +72,7 @@ const ManageAccounts = () => {
     if (!window.confirm("Bạn có chắc chắn muốn xóa?")) return;
 
     try {
-      const response = await fetch(`${apiUrl}/${id}`, { method: "DELETE" });
+      const response = await fetch(`${BASE_URL}/${id}`, { method: "DELETE" });
       if (!response.ok) throw new Error("Xóa thất bại");
       setUsers(users.filter((user) => user.id !== id));
     } catch (error) {
@@ -96,9 +97,7 @@ const ManageAccounts = () => {
   };
 
   return (
-    <div className="text-gray-100 p-6 pl-20">
-      <h2 className="text-2xl font-bold mb-6">Quản lý tài khoản</h2>
-
+    <Container title="Quản lý tài khoản">
       {error && (
         <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg">
           {error}
@@ -216,7 +215,7 @@ const ManageAccounts = () => {
           </tbody>
         </table>
       </div>
-    </div>
+    </Container>
   );
 };
 

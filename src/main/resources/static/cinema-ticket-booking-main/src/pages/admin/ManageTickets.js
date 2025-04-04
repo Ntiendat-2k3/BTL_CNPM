@@ -1,3 +1,5 @@
+import Container from "../../components/admin/Container";
+
 const ManageTickets = () => {
   const ticketData = [
     { movie: "Movie 1", ticketsSold: 150, revenue: 10500000 },
@@ -11,9 +13,7 @@ const ManageTickets = () => {
   const totalRevenue = ticketData.reduce((sum, item) => sum + item.revenue, 0);
 
   return (
-    <div className="text-gray-100 p-6 pl-20">
-      <h2 className="text-2xl font-bold mb-6">Thống kê vé bán</h2>
-
+    <Container title="Thống kê vé bán">
       <div className="bg-gray-800 rounded-lg p-6 mb-6">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
           <div className="bg-blue-600 p-4 rounded-lg">
@@ -52,7 +52,7 @@ const ManageTickets = () => {
           </table>
         </div>
       </div>
-    </div>
+    </Container>
   );
 };
 

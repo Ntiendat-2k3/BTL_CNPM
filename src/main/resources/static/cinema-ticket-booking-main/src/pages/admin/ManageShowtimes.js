@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Container from "../../components/admin/Container";
 
 const ManageShowtimes = () => {
   const [showtimes, setShowtimes] = useState([]);
@@ -21,9 +22,7 @@ const ManageShowtimes = () => {
   };
 
   return (
-    <div className="text-gray-100 p-6 pl-20">
-      <h2 className="text-2xl font-bold mb-6">Quản lý suất chiếu</h2>
-
+    <Container title="Quản lý suất chiếu">
       <form onSubmit={handleSubmit} className="bg-gray-800 p-6 rounded-lg mb-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <div>
@@ -103,7 +102,7 @@ const ManageShowtimes = () => {
           </tbody>
         </table>
       </div>
-    </div>
+    </Container>
   );
 };
 

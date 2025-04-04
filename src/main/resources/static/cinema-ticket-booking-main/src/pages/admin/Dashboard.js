@@ -2,12 +2,11 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 import { stats } from "../../constants/stats";
+import Container from "../../components/admin/Container";
 
 const Dashboard = () => {
   return (
-    <div className="text-gray-100 pl-20">
-      <h1 className="text-3xl font-bold mb-8">Dashboard</h1>
-
+    <Container title="Dashboard">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {stats.map((stat, index) => (
           <div
@@ -66,7 +65,7 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-    </div>
+    </Container>
   );
 };
 
